@@ -54,7 +54,7 @@ export function DataTable({columns,data,}) {
           onChange={(event) =>
             table.getColumn("username")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm bg-sky-200/20"
         />
         <Link href="/admin/accounts/create">
           <Button >
@@ -64,7 +64,7 @@ export function DataTable({columns,data,}) {
       </div>
         <div className="rounded-md border">
         <Table>
-            <TableHeader>
+            <TableHeader className='bg-sky-200/40'>
             {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -88,7 +88,7 @@ export function DataTable({columns,data,}) {
                 <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
-                    className="hover:bg-slate-100"
+                    className="bg-sky-200/20 hover:bg-slate-100"
                 >
                     {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

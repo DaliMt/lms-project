@@ -46,7 +46,7 @@ export default function CourseProgressButton({chapterId,courseId,isCompleted,nex
         onClick={onClick}
         disabled={isLoading}
         type="button"
-        variant={isCompleted ? "secondary" : "success"}
+        variant={isCompleted ? "blue" : "success"}
         className="w-auto"
     >
         {isCompleted ? "Not completed" : "Mark as complete"}

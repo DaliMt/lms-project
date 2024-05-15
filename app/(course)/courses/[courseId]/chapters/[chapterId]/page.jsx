@@ -12,22 +12,14 @@ import Quiz from "./_components/CourseProgressButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export default async function ChapterIdPage({params}) {
-  
+export default async function ChapterIdPage({ params }) {
   // const { userId } = auth();
   // if (!userId) {
   //   return redirect("/");
   // }
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/auth/dashboard")
-  const userId = session?.user?._id; 
-
-
-
-
-
-
-
+  if (!session) redirect("/auth/dashboard");
+  const userId = session?.user?._id;
 
   const {
     chapter,
@@ -44,90 +36,77 @@ export default async function ChapterIdPage({params}) {
   });
 
   if (!chapter || !course) {
-    return redirect("/")
+    return redirect("/");
   }
 
   const isLocked = !chapter.isFree && !purchase;
   // set completeOnEnd to true if the user has purchased the course and has not completed the chapter yet. Otherwise, it will be set to false.
   const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 
-
   return (
-    <div>
+    <div className="bg-slate-300/10">
       {userProgress?.isCompleted && (
-          <Banner
-          variant="success"
-          label="You already completed this chapter."
-        />
+        <Banner variant="success" label="You already completed this chapter." />
       )}
       {isLocked && (
-          <Banner
-            variant="warning"
-            label="You need to purchase this course to watch this chapter."
-          />
+        <Banner
+          variant="warning"
+          label="You need to purchase this course to watch this chapter."
+        />
       )}
       <div className="flex flex-col max-w-4xl mx-auto pb-20">
         <div className="p-4">
           <VideoPlayer
-              chapterId={params.chapterId}
-              title={chapter.title}
-              courseId={params.courseId}
-              nextChapterId={nextChapter?.id}
-              playbackId={muxData?.playbackId}
-              isLocked={isLocked}
-              completeOnEnd={completeOnEnd}
-            />
+            chapterId={params.chapterId}
+            title={chapter.title}
+            courseId={params.courseId}
+            nextChapterId={nextChapter?.id}
+            playbackId={muxData?.playbackId}
+            isLocked={isLocked}
+            completeOnEnd={completeOnEnd}
+          />
         </div>
         <div>
-          <div className="p-4 flex  md:flex-row items-center justify-between">
-            <h2 className="text-2xl font-semibold mb-2">
-              {chapter.title}
-            </h2>
-            {purchase ?(
+          <div className="p-4 flex  md:flex-row items-center justify-between border rounded-md mb-3 ">
+            <h2 className="text-2xl font-semibold mb-2">{chapter.title}</h2>
+            {purchase ? (
               <CourseProgressButton
                 chapterId={params.chapterId}
                 courseId={params.courseId}
                 nextChapterId={nextChapter?.id}
                 isCompleted={!!userProgress?.isCompleted}
               />
-            ):(
+            ) : (
               <CourseEnrollButton
                 courseId={params.courseId}
                 price={course.price}
               />
             )}
           </div>
-          <Separator/>
+          <Separator />
           <div>
-            <Preview
-              value = {chapter.description}
-            />
+            <Preview value={chapter.description} />
           </div>
-          {!!attachments.length &&(
+          {!!attachments.length && (
             <>
-              <Separator/>
+              <Separator />
               <div className="p-4 space-y-1">
                 {attachments.map((attachment) => (
-                  <a 
+                  <a
                     href={attachment.url}
                     target="_blank"
                     key={attachment._id}
-                    className= "flex items-center  p-3 w-full bg-sky-200 border rounded-md text-sky-700 hover:underline"
+                    className="flex items-center  p-3 w-full bg-sky-200 border rounded-md text-sky-700 hover:underline"
                   >
                     <File />
-                    <p className="ml-2 line-clamp-1">
-                      {attachment.name}
-                    </p>
+                    <p className="ml-2 line-clamp-1">{attachment.name}</p>
                   </a>
                 ))}
               </div>
-
             </>
           )}
-          
-     
         </div>
       </div>
     </div>
-  )
+  );
 }

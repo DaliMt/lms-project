@@ -21,8 +21,8 @@ export default  function UserInfo() {
     {session && (
         <>
        
-        <div className="grid place-items-center h-screen">
-      <div className=" shadow-lg p-8 bg-zinc-300/10  flex  flex-col gap-2 my-6 ">
+        <div className="bg-sky-700 grid place-items-center h-screen">
+      <div className="  shadow-lg p-8 bg-slate-100 rounded-md  flex  flex-col gap-2 my-6 ">
         <h1 className="text-xl font-medium text-red-700">Are You Sure of LoginOut ?</h1>
         <div>
           Name : <span className=" font-bold">{session?.data?.user?.username}</span>

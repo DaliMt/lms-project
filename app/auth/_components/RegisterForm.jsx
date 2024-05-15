@@ -57,8 +57,8 @@ export default function RegisterForm() {
 
     }
   return (
-    <div className="grid place-items-center h-screen ">
-    <div className=" shadow-lg rounded-lg p-5 border-t-4 border-green-500">
+    <div className="grid place-items-center  bg-sky-700 h-screen ">
+    <div className=" shadow-lg rounded-lg p-5 bg-slate-100 border-t-4 border-green-500">
       <h1 className=" text-xl font-bold my-4">Register </h1>
       <form onSubmit={handleSubmit} className=" flex flex-col gap-3" >
           <input className="w-[400px] border border-gray-200 py-2 px-6
@@ -67,6 +67,8 @@ export default function RegisterForm() {
         bg-zinc-100/40' onChange={e=>setEmail(e.target.value)}   type="text" placeholder="email" />
           <input className='w-[400px] border border-gray-200 py-2 px-6
         bg-zinc-100/40' onChange={e=>setPassword(e.target.value)} type="password" placeholder="password" />
+          <input className='w-[400px] border border-gray-200 py-2 px-6
+        bg-zinc-100/40'  type="password" placeholder="confirm your password" />
          <select
           className="w-[400px] border border-gray-200 py-2 px-6 bg-zinc-100/40"
           onChange={e => setRole(e.target.value)}

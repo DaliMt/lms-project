@@ -40,23 +40,28 @@ export default function NavbarRoutes({imageUrl}) {
             <SearchInput/>
         </div>
     )}
+    {!isSearchPage &&(
+        <div>
+            <h1 className='ml-4 text-xl'>Hello, <span className='font-bold'>{session?.data?.user?.username}</span></h1>
+        </div>
+    )}
         <div className=' flex gap-x-2 ml-auto '>
             {isTeacherPage || isCoursePage || isAdminPage ? (
                 <Link href="/">
-                    <Button size="sm" variant="ghost">
+                    <Button size="sm" variant="destructive">
                         <LogOut className='h-4 w-4 mr-2'/>
                         Exit
                     </Button>
                 </Link>
             ) : role === "teacher" ? (
                 <Link href="/teacher/courses">
-                    <Button size="sm" variant="ghost">
+                    <Button size="sm" variant="sucesss">
                         Teacher mode
                     </Button>
                 </Link>
             ) :  role === "admin" ? (
                 <Link href="/admin/accounts">
-                    <Button size="sm" variant="ghost">
+                    <Button  size="sm" variant="success">
                         Admin mode
                     </Button>
                 </Link>
