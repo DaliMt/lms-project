@@ -11,13 +11,13 @@ import {
 import CategoryItem from "./CategoryItem";
 
   const iconMap = {
-    "music": FcMusic,
-    // "Photography": FcOldTimeCamera,
-    "finans": FcSportsMode,
-    "accounting": FcSalesPerformance,
-    "web dev": FcMultipleDevices,
-    // "Filming": FcFilmReel,
-    // "Engineering": FcEngineering,
+    "Music": FcMusic,
+    "Photography": FcOldTimeCamera,
+    "Fitness": FcSportsMode,
+    "Accounting": FcSalesPerformance,
+    "Web dev": FcMultipleDevices,
+    "Filming": FcFilmReel,
+    "Engineering": FcEngineering,
   };
 
 export default function Categories({items}) {

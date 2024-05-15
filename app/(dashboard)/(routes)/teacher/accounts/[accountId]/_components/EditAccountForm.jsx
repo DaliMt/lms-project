@@ -57,10 +57,10 @@ export default function EditAccountForm({userdata,accountId}) {
           
         //   router.push(`/teacher/accounts/${res.data._id}`)
         // console.log("acoount:::" , res.data)
-          if(userdata.role === "admin" ){
+          if(userdata.role === "teacher" ){
             router.push(`/teacher/accounts`)
           }else{
-            router.push(`/teacher/analytics`)
+            router.push(`/`)
           }
           toast.success("account updated")
           router.refresh();
@@ -74,6 +74,7 @@ export default function EditAccountForm({userdata,accountId}) {
             
             await axios.delete(`/api/accounts/${accountId}`);
             toast.success("Account deleted");
+
             router.push(`/teacher/accounts`);
             router.refresh();
         } catch  {
@@ -262,8 +263,8 @@ export default function EditAccountForm({userdata,accountId}) {
 
                 </div>
                 <div className='flex items-center gap-x-2'>
-                 {userdata.role === "admin" ?(
-                   <Link href="/teacher/accounts">
+                 {userdata.role === "student" ?(
+                   <Link href="/">
                    <Button 
                      type="button"
                      variant="ghost"

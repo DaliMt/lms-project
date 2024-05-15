@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import Preview from "@/components/Preview";
 import { File } from "lucide-react";
 import CourseProgressButton from "./_components/CourseProgressButton";
+import Quiz from "./_components/CourseProgressButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
@@ -20,6 +21,13 @@ export default async function ChapterIdPage({params}) {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/auth/dashboard")
   const userId = session?.user?._id; 
+
+
+
+
+
+
+
 
   const {
     chapter,
@@ -116,6 +124,8 @@ export default async function ChapterIdPage({params}) {
 
             </>
           )}
+          
+     
         </div>
       </div>
     </div>

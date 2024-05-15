@@ -12,14 +12,16 @@ import SearchInput from './SearchInput';
 
 import teacher from '@/lib/teacher';
 import { admin } from '@/lib/teacher';
+import UserButton from './UserButton';
 
 
-export default function NavbarRoutes() {
+export default function NavbarRoutes({imageUrl}) {
     
     const session =  useSession();
     const userId = session?.data?.user?._id
     const role = session?.data?.user?.role
     console.log("useridddd",userId)
+    console.log("useridddd",session?.data?.user?.imageUrl)
     // const {userId}=useAuth();
     
 
@@ -59,7 +61,9 @@ export default function NavbarRoutes() {
                     </Button>
                 </Link>
             ) : null}
-
+            <UserButton
+                imageUrl={imageUrl}
+            />
             {/* <UserButton
                 afterSignOutUrl='/'
             /> */}

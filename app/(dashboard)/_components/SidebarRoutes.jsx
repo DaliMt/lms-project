@@ -1,6 +1,6 @@
 'use client'
 
-import { BarChart, CircleUserRound, Compass, Layout, List, Settings } from "lucide-react"
+import { BarChart, CircleUserRound, Compass, Layout, List, LogOut, Settings } from "lucide-react"
 import SidebarItem from "./SidebarItem";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -29,7 +29,12 @@ export default function SidebarRoutes() {
        href : "/search",
     },
     {
-      icon : Settings ,
+       icon : Settings ,
+       label : "My Account Settings",
+       href : `/student/accounts/${userId}`,
+    },
+    {
+      icon : LogOut ,
       label : "LogOut",
       href : `/auth`,
   },
@@ -40,26 +45,26 @@ export default function SidebarRoutes() {
 const adminRoutes = [
   {
     icon : List,
-    label : "Courses",
+    label : "All Courses",
     href : "/admin/courses",
 },
 {
   icon : BarChart,
-  label : "Analytics",
+  label : "All Analytics",
   href : "/admin/analytics",
 },
 {
     icon : CircleUserRound ,
-    label : "Accounts",
+    label : "All Accounts",
     href : "/admin/accounts",
 },
 {
     icon : Settings ,
-    label : "Setting",
+    label : "Settings",
     href : `/admin/accounts/${userId}`,
 },
 {
-  icon : Settings ,
+  icon : LogOut ,
   label : "LogOut",
   href : `/auth`,
 },
@@ -82,11 +87,11 @@ const adminRoutes = [
     // },
     {
         icon : Settings ,
-        label : "Setting",
+        label : "My Account Settings",
         href : `/teacher/accounts/${userId}`,
     },
     {
-        icon : Settings ,
+        icon : LogOut ,
         label : "LogOut",
         href : `/auth`,
     },
