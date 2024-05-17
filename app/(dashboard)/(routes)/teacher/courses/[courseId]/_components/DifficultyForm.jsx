@@ -30,12 +30,12 @@ import {
 } from "@/components/ui/select";
 
 const formSchema = z.object({
-  category: z.string().min(1, {
-    message: "Category  is required",
+  difficulty: z.string().min(1, {
+    message: "difficulty  is required",
   }),
 });
 
-export default function CategoryForm({ initialData, courseId, options }) {
+export default function DifficultyForm({ initialData, courseId, options }) {
   const [isEditing, setIsEditing] = useState(false);
 
   const router = useRouter();
@@ -43,7 +43,7 @@ export default function CategoryForm({ initialData, courseId, options }) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      category: initialData?.category || "",
+      difficulty: initialData?.difficulty || "",
     },
   });
 
@@ -65,7 +65,7 @@ export default function CategoryForm({ initialData, courseId, options }) {
   // ]
 
   const selectedOption = options.find(
-    (option) => option.value === initialData.category
+    (option) => option === initialData.difficulty
   );
 
   const { isSubmitting, isValid } = form.formState;
@@ -76,7 +76,7 @@ export default function CategoryForm({ initialData, courseId, options }) {
 
       await axios.patch(`/api/courses/${courseId}`, values);
       // await axios.patch(`/api/courses/${courseId}`, {category:"laaqq"})
-      toast.success("Course Category updated");
+      toast.success("Course difficulty updated");
       setIsEditing((e) => !e);
       router.refresh();
     } catch (error) {
@@ -88,14 +88,14 @@ export default function CategoryForm({ initialData, courseId, options }) {
   return (
     <div className="mt-6 border  bg-slate-100 rounded-md p-4  ">
       <div className="font-medium flex   justify-between items-center">
-        Course Category
+        Course difficulty
         <Button onClick={() => setIsEditing((e) => !e)} variant="ghost">
           {isEditing && <>Cancel</>}
 
           {!isEditing && (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit Category
+              Edit difficulty
             </>
           )}
         </Button>
@@ -104,10 +104,10 @@ export default function CategoryForm({ initialData, courseId, options }) {
         <p
           className={cn(
             "text-sm mt-2",
-            !initialData.category && "text-slate-500 italic"
+            !initialData.difficulty && "text-slate-500 italic"
           )}
         >
-          {selectedOption?.label || "No Category"}
+          {selectedOption || "No difficulty"}
         </p>
       )}
       {isEditing && (
@@ -118,7 +118,7 @@ export default function CategoryForm({ initialData, courseId, options }) {
           >
             <FormField
               control={form.control}
-              name="category"
+              name="difficulty"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
@@ -133,14 +133,14 @@ export default function CategoryForm({ initialData, courseId, options }) {
                       <SelectTrigger className="w-full text-slate-500">
                         <SelectValue
                           placeholder={
-                            selectedOption?.label || "select course category "
+                            selectedOption || "select course difficulty "
                           }
                         />
                       </SelectTrigger>
 
                       <SelectContent>
                         {options.map((op) => (
-                          <SelectItem value={op.value}>{op.label}</SelectItem>
+                          <SelectItem value={op}>{op}</SelectItem>
                           // label: op.name,
                           // value: op._id,
                         ))}

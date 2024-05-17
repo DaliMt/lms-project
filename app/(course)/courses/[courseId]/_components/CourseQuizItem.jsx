@@ -1,11 +1,11 @@
 "use client";
 
-import { CheckCircle, Lock, PlayCircle } from "lucide-react";
+import { CheckCircle, Lock, PlayCircle, BookCheck } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 
-export default function CourseSidebarItem({
+export default function CourseQuizItem({
   label,
   id,
   isCompleted,
@@ -14,12 +14,13 @@ export default function CourseSidebarItem({
 }) {
   const pathname = usePathname();
   const router = useRouter();
+  console.log("fffffffff", label);
 
-  const Icon = isLocked ? Lock : isCompleted ? CheckCircle : PlayCircle;
+  const Icon = isLocked ? Lock : isCompleted ? CheckCircle : BookCheck;
   const isActive = pathname?.includes(id);
 
   const onClick = () => {
-    router.push(`/courses/${courseId}/chapters/${id}`);
+    router.push(`/courses/${courseId}/quizzes/${id}`);
   };
 
   return (
