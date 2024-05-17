@@ -8,13 +8,13 @@ const userSchema = new Schema(
     },
     email: String,
     password: String,
-    role : String,
+    role: String,
     imageUrl: String,
   },
   { timestamps: true }
 );
 mongoose.models = {};
-const User = mongoose.models.User || mongoose.model("User",userSchema)
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 
-// export default User ; 
-export  {User} ; 
+// export default User ;
+export { User };

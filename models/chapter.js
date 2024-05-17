@@ -1,7 +1,6 @@
 import connectMongoDB from "@/lib/mongodb";
 import mongoose, { Schema } from "mongoose";
 
-
 // Mongoose Schema for Chapter
 
 const chapterSchema = new Schema(
@@ -44,7 +43,7 @@ const chapterSchema = new Schema(
 
 const muxDataSchema = new Schema(
   {
-    assetId: String ,
+    assetId: String,
     playbackId: String,
     chapterId: {
       type: Schema.Types.ObjectId,
@@ -57,23 +56,29 @@ const muxDataSchema = new Schema(
 
 // Mongoose Schema for UserProgress
 
-const userProgressSchema = new Schema({
+const userProgressSchema = new Schema(
+  {
     userId: String,
-    chapterId: { 
-        type: Schema.Types.ObjectId, 
-        ref: 'Chapter' 
+    chapterId: {
+      type: Schema.Types.ObjectId,
+      ref: "Chapter",
     },
-    isCompleted: { 
-        type: Boolean, 
-        default: false 
+    isCompleted: {
+      type: Boolean,
+      default: false,
     },
-  }, { timestamps: true });
+  },
+  { timestamps: true }
+);
 
-
-  // Create models from the schemas
- mongoose.models = {};
- const Chapter = mongoose.models.Chapter || mongoose.model('Chapter', chapterSchema);
- const MuxData =  mongoose.models.MuxData || mongoose.model('MuxData', muxDataSchema);
- const UserProgress = mongoose.models.UserProgress || mongoose.model('UserProgress', userProgressSchema);
+// Create models from the schemas
+mongoose.models = {};
+const Chapter =
+  mongoose.models.Chapter || mongoose.model("Chapter", chapterSchema);
+const MuxData =
+  mongoose.models.MuxData || mongoose.model("MuxData", muxDataSchema);
+const UserProgress =
+  mongoose.models.UserProgress ||
+  mongoose.model("UserProgress", userProgressSchema);
 // export default mongoose.model('Chapter', chapterSchema);
-export  { Chapter, MuxData, UserProgress };
+export { Chapter, MuxData, UserProgress };

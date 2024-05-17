@@ -13,7 +13,6 @@
 // import { Combobox, ComboboxDemo, ComboboxForm } from "@/components/ui/combobox";
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-
 // export default async function CourseIdPage({ params }) {
 //   const { userId } = auth();
 
@@ -48,13 +47,11 @@
 
 //   console.log("Categories:", categories);
 
-
 // const options = categories.map((category) => ({
 //   label: category.name,
 //   value: category.id,
 // }));
 // console.log("Options:", options);
-
 
 //   if (!course) {
 //     return redirect("/");
@@ -92,21 +89,23 @@
 //           <DescriptionForm initialData={course} courseId={course.id} />
 //           <ImageForm initialData={course} courseId={course.id} />
 
-          
-     
 //         </div>
 //       </div>
 //     </div>
 //   );
 // }
 
-
-
 import { IconBadge } from "@/components/icon-badge";
 import connectMongoDB from "@/lib/mongodb";
 import Course from "@/models/course";
 import { auth } from "@clerk/nextjs";
-import { CircleDollarSign, File, LayoutDashboard, ListChecks } from "lucide-react";
+import {
+  CircleDollarSign,
+  File,
+  LayoutDashboard,
+  ListChecks,
+  BookCheck,
+} from "lucide-react";
 import { redirect } from "next/navigation";
 import TitleForm from "./_components/TitleForm";
 import DescriptionForm from "./_components/DescriptionForm";
@@ -114,7 +113,13 @@ import ImageForm from "./_components/ImageForm";
 import Category from "@/models/category.js";
 import CategoryForm from "./_components/CategoryForm";
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import PriceForm from "./_components/PriceForm";
 import AttachmentForm from "./_components/AttachmentsForm";
 import Attachment from "@/models/attachment";
@@ -122,7 +127,9 @@ import ChaptersForm from "./_components/ChaptersForm";
 import { Chapter } from "@/models/chapter";
 import Banner from "@/components/Banner";
 import Actions from "./_components/Actions";
-
+import QuizForm from "./_components/QuizForm";
+import { Quiz } from "@/models/quiz";
+import DifficultyForm from "./_components/DifficultyForm";
 
 export default async function CourseIdPage({ params }) {
   // const { userId } = auth();
@@ -145,13 +152,16 @@ export default async function CourseIdPage({ params }) {
     label: category.name,
     value: category.id,
   }));
+  // define difficulty data
+  const difficulties = ["Beginner", "Intermediate", "Advanced"];
+  // load attachments data
+  const atta = await Attachment.find({ course });
 
-  // load attachments data 
-  const atta = await Attachment.find({course})
-  
-  // load chapters data 
-  const chap = await Chapter.find({course}).sort({ position: 1 });
-  
+  // load chapters data
+  const chap = await Chapter.find({ course }).sort({ position: 1 });
+  // load quizzes data
+  const quiz = await Quiz.find({ course }).sort({ position: 1 });
+
   // Calculate completion text
   const requiredField = [
     course.title,
@@ -159,7 +169,8 @@ export default async function CourseIdPage({ params }) {
     course.imageUrl,
     course.price,
     course.category,
-    chap.some(ch=>ch.isPublished),
+    course.difficulty,
+    chap.some((ch) => ch.isPublished),
   ];
   const totalFields = requiredField.length;
   const completedFields = requiredField.filter(Boolean).length;
@@ -169,10 +180,8 @@ export default async function CourseIdPage({ params }) {
 
   return (
     <>
-       {!course.isPublished && (
-        <Banner
-          label="This course is unpublished. It will not be visible to the students."
-        />
+      {!course.isPublished && (
+        <Banner label="This course is unpublished. It will not be visible to the students." />
       )}
       <div className="p-6">
         <div className="flex items-center justify-between">
@@ -187,7 +196,6 @@ export default async function CourseIdPage({ params }) {
             courseId={params.courseId}
             isPublished={course.isPublished}
           />
-        
         </div>
         <div className="grid grid-cols-2 gap-6 mt-16">
           <div>
@@ -198,36 +206,55 @@ export default async function CourseIdPage({ params }) {
             <TitleForm initialData={course} courseId={course.id} />
             <DescriptionForm initialData={course} courseId={course.id} />
             <ImageForm initialData={course} courseId={course.id} />
-            <CategoryForm initialData={course} courseId={course.id} options={options} />
+            <CategoryForm
+              initialData={course}
+              courseId={course.id}
+              options={options}
+            />
+            <DifficultyForm
+              initialData={course}
+              courseId={course.id}
+              options={difficulties}
+            />
           </div>
           <div className="space-y-6 ">
             <div>
               <div className="flex items-center gap-x-2">
-                  <IconBadge icon={ListChecks} />
-                  <h2 className="text-xl">Course Chapters</h2>
+                <IconBadge icon={ListChecks} />
+                <h2 className="text-xl">Course Chapters</h2>
               </div>
               <div>
-              <ChaptersForm initialData={course} courseId={course.id} chap={chap} />
+                <ChaptersForm
+                  initialData={course}
+                  courseId={course.id}
+                  chap={chap}
+                />
               </div>
             </div>
             <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={CircleDollarSign} />
-                  <h2 className="text-xl">Sell your course</h2>
+                <h2 className="text-xl">Sell your course</h2>
               </div>
-              <PriceForm
-                initialData={course} 
+              <PriceForm initialData={course} courseId={course.id} />
+            </div>
+            <div>
+              <div className="flex items-center gap-x-2">
+                <IconBadge icon={File} />
+                <h2 className="text-xl">Resourses & Attachments</h2>
+              </div>
+              <AttachmentForm
+                initialData={course}
                 courseId={course.id}
-                
+                atta={atta}
               />
             </div>
             <div>
               <div className="flex items-center gap-x-2">
-                  <IconBadge icon={File} />
-                    <h2 className="text-xl">Resourses & Attachments</h2>
+                <IconBadge icon={BookCheck} />
+                <h2 className="text-xl">Add a quiz</h2>
               </div>
-              <AttachmentForm initialData={course} courseId={course.id} atta={atta} />
-
+              <QuizForm initialData={course} courseId={course.id} quiz={quiz} />
             </div>
           </div>
         </div>

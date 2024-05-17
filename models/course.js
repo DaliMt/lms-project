@@ -7,6 +7,7 @@ const courseSchema = new Schema(
     description: String,
     imageUrl: String,
     price: Number,
+    difficulty: String,
     isPublished: {
       type: Boolean,
       default: false,
@@ -35,6 +36,12 @@ const courseSchema = new Schema(
       {
         type: Schema.Types.ObjectId,
         ref: "Purchase",
+      },
+    ],
+    quizzes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Quiz",
       },
     ],
   },
